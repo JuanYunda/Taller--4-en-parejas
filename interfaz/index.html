@@ -36,23 +36,32 @@
     </div>
     </nav>
 
-<div class="jumbotron d-flex align-items-center">
-  <div class="container text-center">
-    <h1 class="mb-4">Cotizador de Precios de Productos</h1>
-    <form id="searchForm">
-        <div class="form-group">
-            <label for="productInput">Ingrese el nombre del producto:</label>
-            <input type="text" class="form-control" id="productInput" placeholder="Ejemplo: Zapatos, Celular, etc.">
-        </div>
-        <button type="submit" class="btn btn-primary">Consultar Precio</button>
-    </form>
-    <div id="resultDiv" style="display: none;" class="mt-4">
-        <h2>Precio del Producto:</h2>
-        <div class="alert alert-primary" role="alert" id="priceResult">
-            <!-- Aquí se mostrará el resultado del web scraping -->
+    <div class="jumbotron d-flex align-items-center">
+        <div class="container text-center">
+            <h1 class="mb-4">Cotizador de Precios de Productos</h1>
+            <button onclick="loadData()" class="btn btn-primary">Consultar Precio</button>
+            <div id="tabla-container" class="mt-4">
+                <!-- Aquí se cargará el contenido del archivo HTML generado -->
+            </div>
         </div>
     </div>
-  </div>
+
+    <script>
+        function loadData() {
+            fetch('dataframe.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load dataframe.html');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('tabla-container').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error.message));
+}
+    </script>
+      
   <div class="rectangle-1"></div>
   <div class="rectangle-2"></div>
   <div class="rectangle-transparent-1"></div>
@@ -87,18 +96,5 @@
 	<!-- Main JS -->
 	<script src="js/app.min.js "></script>
 	<script src="//localhost:35729/livereload.js"></script>
-    <script>
-        document.getElementById("searchForm").addEventListener("submit", function(event){
-            event.preventDefault();
-            var product = document.getElementById("productInput").value;
-            fetch("/search?product=" + product)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("priceResult").innerText = data;
-                    document.getElementById("resultDiv").style.display = "block";
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
 </body>
 </html>
