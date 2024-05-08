@@ -22,7 +22,7 @@ def consultar_precio():
             books.append([title, star, price])
 
     df = pd.DataFrame(books, columns=['Title', 'Star Rating', 'Price'])
-    listaDeLibros = df.to_html()
+    listaDeLibros = df.to_html(justify='center')
 
     # Guardar el HTML en un archivo
     with open('interfaz/dataframe.html', 'w') as f:
